@@ -12,10 +12,10 @@ connection = pymysql.connect(host='localhost',
 
 
 # 保存歌手
-def insert_artist(artist_id, artist_name):
+def insert_artist(artist_id, artist_name,cat_id):
     with connection.cursor() as cursor:
-        sql = "INSERT INTO `singers1` (`href`, `name`) VALUES (%s, %s)"
-        cursor.execute(sql, (artist_id, artist_name))
+        sql = "INSERT INTO `artist1` (`name`, `artist_id`, `cat_id`) VALUES (%s, %s, %s)"
+        cursor.execute(sql, (artist_name, artist_id, cat_id))
     connection.commit()
 
 #保存专辑
@@ -46,6 +46,16 @@ def insert_music(music_id,comment,hotComment,connection0):
     # 没有设置默认自动提交，需要主动提交，以保存所执行的语句
     connection0.commit()
 
+
+#保存等你下课的歌曲信息
+def insert_with_you(count,date,content,zan,connection0):
+    with connection0.cursor() as cursor:
+        # 执行sql语句，插入记录
+        sql = 'INSERT INTO waitYou (count,date,content,zan) VALUES (%s, %s, %s, %s)'
+        cursor.execute(sql, (count,date,content,zan));
+    # 没有设置默认自动提交，需要主动提交，以保存所执行的语句
+    connection0.commit()
+
 #获取歌手
 def qry_artists():
     with connection.cursor() as cursor:
@@ -53,7 +63,7 @@ def qry_artists():
         #爬数据用
         # sql = 'SELECT href FROM singers1 ORDER BY href' 
         #导出excel用
-        sql = 'SELECT distinct * FROM singers1 ORDER BY href' 
+        sql = 'SELECT distinct * FROM artist1 ORDER BY artist_id' 
         #中间断了服务
         # sql = "SELECT href FROM singers1 WHERE href > '127296'  ORDER BY href "
         # sql = "SELECT href FROM singers1 WHERE href > '127289'  ORDER BY href "

@@ -50,7 +50,7 @@ def save_artist(group_id, initial):
         id = i.find("a")["href"].replace('/artist?id=', '').strip()
         name = i.find("a").string
         print(id)
-        sql.insert_artist(id,name)
+        sql.insert_artist(id,name,group_id)
 
     artists = body.find_all('a', attrs={'class': 'nm nm-icn f-thide s-fc0'})
     for i in artists: #下面的
@@ -59,7 +59,7 @@ def save_artist(group_id, initial):
         id = i["href"].replace('/artist?id=', '').strip()
         name = i.string
         print(id)
-        sql.insert_artist(id,name)
+        sql.insert_artist(id,name,group_id)
 
 
     # writeFile(r"./arts_list.txt", ' '.join(all_artList))
