@@ -51,7 +51,7 @@ def insert_music(music_id,comment,hotComment,connection0):
 def insert_with_you(count,date,content,zan,connection0):
     with connection0.cursor() as cursor:
         # 执行sql语句，插入记录
-        sql = 'INSERT INTO waitYou (count,date,content,zan) VALUES (%s, %s, %s, %s)'
+        sql = 'INSERT INTO qingtian (count,date,content,zan) VALUES (%s, %s, %s, %s)'
         cursor.execute(sql, (count,date,content,zan));
     # 没有设置默认自动提交，需要主动提交，以保存所执行的语句
     connection0.commit()
