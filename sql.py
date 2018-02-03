@@ -18,6 +18,33 @@ def insert_artist(artist_id, artist_name,cat_id):
         cursor.execute(sql, (artist_name, artist_id, cat_id))
     connection.commit()
 
+# 保存歌单
+def insert_playList(playList_id, playList_title,zan):
+    with connection.cursor() as cursor:
+        sql = "INSERT INTO `playlist` (`playList_id`, `playList_title`, `zan`) VALUES (%s, %s, %s)"
+        cursor.execute(sql, (playList_id, playList_title,zan))
+    connection.commit()
+# 保存歌词
+def insert_gfmusic(music_id, music_content):
+    with connection.cursor() as cursor:
+        sql = "INSERT INTO `gfmusic` (`music_id`, `music_content`) VALUES (%s, %s)"
+        cursor.execute(sql, (music_id, music_content))
+    connection.commit()
+#保存歌曲mp3
+def sql_mp3(music_id, music_name,music_url,connection0):
+    with connection0.cursor() as cursor:
+        sql = "INSERT INTO `mp3` (`music_id`, `music_name`,`mp3_url`) VALUES (%s, %s, %s)"
+        cursor.execute(sql, (music_id, music_name,music_url))
+    connection0.commit()
+
+
+# 保存歌单
+def insert_gfList(playList_id, music_name,music_id):
+    with connection.cursor() as cursor:
+        sql = "INSERT INTO `gfList` (`playList_id`, `music_name`, `music_id`) VALUES (%s, %s, %s)"
+        cursor.execute(sql, (playList_id, music_name,music_id))
+    connection.commit()
+
 #保存专辑
 def insert_album(album_id,artist_id):
     with connection.cursor() as cursor:
@@ -71,6 +98,40 @@ def qry_artists():
         # 获取查询结果
         result = cursor.fetchall()
         # print(result)
+
+
+        return result
+
+#获取playList
+def qry_playList():
+    with connection.cursor() as cursor:
+        sql = 'SELECT distinct * FROM playList ORDER BY playList_id' 
+        cursor.execute(sql, ())
+        result = cursor.fetchall()
+        return result
+
+#获取playList
+def qry_gfmusic():
+    with connection.cursor() as cursor:
+        sql = 'SELECT distinct * FROM gfmusic ORDER BY music_id' 
+        cursor.execute(sql, ())
+        result = cursor.fetchall()
+        return result
+
+#获取gfList
+def qry_gflist():
+    with connection.cursor() as cursor:
+        sql = 'SELECT * FROM gflist ORDER BY music_id' 
+        cursor.execute(sql, ())
+        result = cursor.fetchall()
+        return result
+
+#获取不重复gfList
+def qry_un_gflist():
+    with connection.cursor() as cursor:
+        sql = 'SELECT * FROM gflist group by music_id' 
+        cursor.execute(sql, ())
+        result = cursor.fetchall()
         return result
 
 #获取歌手专辑
@@ -115,7 +176,7 @@ def qry_content():
 # 获取前一半音乐的 ID
 def get_before_music():
     with connection.cursor() as cursor:
-        sql = "SELECT `music_id` FROM `music2` where music_id <= '360001' and music_id > '28283187' ORDER BY music_id "
+        sql = "SELECT * FROM `music2` where music_id < '427595864' group BY music_id "
         cursor.execute(sql, ())
         return cursor.fetchall()
 
@@ -123,11 +184,19 @@ def get_before_music():
 # 获取后一半音乐的 ID
 def get_after_music():
     with connection.cursor() as cursor:
-        sql = "SELECT `music_id` FROM `music2` where music_id <'6' and music_id > '427595864' ORDER BY music_id"
+        sql = "SELECT * FROM `music2` where music_id >= '427595864' group BY music_id"
         cursor.execute(sql, ())
         return cursor.fetchall()
 
+#获取等你下课评论
+def qry_wait_you():
+    with connection.cursor() as cursor:
+        sql = 'SELECT distinct * FROM waityou ORDER BY date'
+        cursor.execute(sql, ())
+        # 获取查询结果
+        result = cursor.fetchall()
 
+        return result
 
 def dis_connect():
     connection.close()
